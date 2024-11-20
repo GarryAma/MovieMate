@@ -2,9 +2,7 @@ import React from "react";
 
 const NumResult = ({ movies }) => {
   return (
-    <p className="text-white text-xs md:text-sm">
-      Found {movies.length} results
-    </p>
+    <p className="text-white text-xs md:text-sm">Found {movies} results</p>
   );
 };
 

@@ -1,11 +1,15 @@
 import React from "react";
-import WatchedMovie from "./WatchedMovie";
+import SharedMovieComponent from "./SharedMovieComponent";
 
 const WatchedList = ({ watched }) => {
   return (
     <ul className="text-white text-xs sm:text-sm">
       {watched.map((movie) => (
-        <WatchedMovie movie={movie} key={movie.imdbID} />
+        <SharedMovieComponent
+          movie={movie}
+          key={movie.imdbID}
+          componentType="rating"
+        />
       ))}
     </ul>
   );

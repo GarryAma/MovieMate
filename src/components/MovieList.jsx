@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import Movie from "./Movie";
+import SharedMovieComponent from "./SharedMovieComponent";
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, onSelect }) => {
   return (
     <ul className="text-white text-xs sm:text-sm">
       {movies.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <SharedMovieComponent
+          movie={movie}
+          key={movie.imdbID}
+          componentType="year"
+          onSelect={onSelect}
+        />
       ))}
     </ul>
   );

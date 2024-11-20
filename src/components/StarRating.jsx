@@ -1,34 +1,67 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-const StarRating = () => {
+const StarRating = ({
+  maxRating = 5,
+  color = "yellow",
+  size = 28,
+  onSetMovie = () => {},
+}) => {
   const [rate, setRate] = useState(0);
+  const [temporaryRating, setTemporaryRating] = useState(0);
 
   const handleSetRate = (starPosition) => {
     setRate(starPosition);
+    onSetMovie(starPosition);
   };
 
-  console.log(rate);
+  const handleHover = (starPosition) => {
+    setTemporaryRating(starPosition);
+  };
 
   return (
-    <div className="p-5 bg-blue-900 flex">
-      {Array.from({ length: 5 }, (_, index) => index + 1).map(
-        (singleNumber) => (
-          <Star onSetRate={() => handleSetRate(singleNumber)} />
-        )
+    <div className="p-5 flex items-center">
+      {Array.from({ length: maxRating }, (_, index) => index + 1).map(
+        (singleNumber) => {
+          const isFull = temporaryRating
+            ? temporaryRating >= singleNumber
+            : rate >= singleNumber;
+          return (
+            <Star
+              onSetRate={() => handleSetRate(singleNumber)}
+              onHoverIn={() => handleHover(singleNumber)}
+              onHoverOut={() => handleHover(0)}
+              currentRate={rate}
+              isFull={isFull}
+              color={color}
+              size={size}
+              key={singleNumber}
+            />
+          );
+        }
       )}
-      <p className="ml-3 font-thin text-white">{rate || ""}</p>
+      <p className="ml-1 font text-white">{temporaryRating || rate || ""}</p>
     </div>
   );
 };
 
-const Star = ({ onSetRate }) => {
+// defining propTypes for StarRating component4
+StarRating.propTypes = {
+  maxRating: PropTypes.number,
+};
+
+const Star = ({ onSetRate, isFull, onHoverIn, onHoverOut, color, size }) => {
   return (
-    <span onClick={onSetRate}>
+    <span
+      onClick={onSetRate}
+      onMouseEnter={onHoverIn}
+      onMouseLeave={onHoverOut}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="yellow"
-        viewBox="0 0 28 28"
-        stroke="yellow"
+        fill={isFull ? `${color}` : "none"}
+        viewBox={`0 0 ${size} ${size}`}
+        stroke={`${color}`}
         className="size-6 cursor-pointer"
       >
         <path
