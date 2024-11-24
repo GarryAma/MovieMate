@@ -1,7 +1,7 @@
 import React from "react";
 import SharedMovieComponent from "./SharedMovieComponent";
 
-const WatchedList = ({ watched }) => {
+const WatchedList = ({ watched, onDelete }) => {
   return (
     <ul className="text-white text-xs sm:text-sm">
       {watched.map((movie) => (
@@ -9,6 +9,8 @@ const WatchedList = ({ watched }) => {
           movie={movie}
           key={movie.imdbID}
           componentType="rating"
+          disabled={true}
+          onDelete={onDelete}
         />
       ))}
     </ul>

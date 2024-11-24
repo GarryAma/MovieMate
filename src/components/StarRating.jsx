@@ -20,27 +20,31 @@ const StarRating = ({
   };
 
   return (
-    <div className="p-5 flex items-center">
-      {Array.from({ length: maxRating }, (_, index) => index + 1).map(
-        (singleNumber) => {
-          const isFull = temporaryRating
-            ? temporaryRating >= singleNumber
-            : rate >= singleNumber;
-          return (
-            <Star
-              onSetRate={() => handleSetRate(singleNumber)}
-              onHoverIn={() => handleHover(singleNumber)}
-              onHoverOut={() => handleHover(0)}
-              currentRate={rate}
-              isFull={isFull}
-              color={color}
-              size={size}
-              key={singleNumber}
-            />
-          );
-        }
-      )}
-      <p className="ml-1 font text-white">{temporaryRating || rate || ""}</p>
+    <div className="p-3 flex justify-between w-[90%]">
+      <div className="flex">
+        {Array.from({ length: maxRating }, (_, index) => index + 1).map(
+          (singleNumber) => {
+            const isFull = temporaryRating
+              ? temporaryRating >= singleNumber
+              : rate >= singleNumber;
+            return (
+              <Star
+                onSetRate={() => handleSetRate(singleNumber)}
+                onHoverIn={() => handleHover(singleNumber)}
+                onHoverOut={() => handleHover(0)}
+                currentRate={rate}
+                isFull={isFull}
+                color={color}
+                size={size}
+                key={singleNumber}
+              />
+            );
+          }
+        )}
+      </div>
+      <p className="text-white flex items-center p-2">
+        {temporaryRating || rate || 0}
+      </p>
     </div>
   );
 };
@@ -56,13 +60,16 @@ const Star = ({ onSetRate, isFull, onHoverIn, onHoverOut, color, size }) => {
       onClick={onSetRate}
       onMouseEnter={onHoverIn}
       onMouseLeave={onHoverOut}
+      className="flex justify-center items-center"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill={isFull ? `${color}` : "none"}
         viewBox={`0 0 ${size} ${size}`}
         stroke={`${color}`}
-        className="size-6 cursor-pointer"
+        width={size}
+        height={size}
+        className="size-6 cursor-pointer transform-none"
       >
         <path
           strokeLinecap="round"
