@@ -49,12 +49,15 @@ const RealApp = () => {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const fetchData = async () => {
       try {
         setIsLoading(true);
         setError("");
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          { signal }
         );
 
         //no internet connection
@@ -68,8 +71,13 @@ const RealApp = () => {
         // console.log(data);
         setMovies(data.Search);
         setIsLoading(false);
+        setError("");
       } catch (error) {
-        setError(error.message);
+        // console.log(error.name);
+        // console.log(error.message);
+
+        //ignore or only setError if error !== "AbourError"
+        if (error.name !== "AbortError") setError(error.message);
       } finally {
         setIsLoading(false);
         // setError("");
@@ -83,6 +91,11 @@ const RealApp = () => {
     }
 
     fetchData();
+
+    //clean up function for canceling every request/query - every type0
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   return (
