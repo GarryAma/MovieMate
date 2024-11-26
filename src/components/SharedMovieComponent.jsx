@@ -5,14 +5,14 @@ import React from "react";
 const SharedMovieComponent = ({
   movie,
   componentType = "",
-  onSelect,
+  onSelect = () => {},
   disabled = false,
   onDelete = () => {},
 }) => {
   return (
     <li
       className={`border-b border-slate-100/20 p-4 flex gap-5 cursor-pointer hover:bg-slate-500 transition-all duration-300 ${
-        disabled ? "cursor-not-allowed" : ""
+        disabled ? "cursor-default" : ""
       }`}
       onClick={() => onSelect(movie.imdbID)}
     >
@@ -42,7 +42,7 @@ const SharedMovieComponent = ({
               <span>{movie.Runtime}</span>
             </p>
             <button
-              className="absolute right-1 border border-white w-5 h-5  hover:bg-red-600 hover:border-slate-700 hover:text-slate-700 duration-300 transition-all rounded-sm"
+              className="absolute right-1 border border-white w-5 h-5  hover:bg-red-600 hover:border-none duration-300 transition-all rounded-sm"
               onClick={() => onDelete(movie)}
             >
               X

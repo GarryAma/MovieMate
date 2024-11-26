@@ -36,6 +36,8 @@ const MovieDetail = ({
     Language: language,
   } = movie || {};
 
+  // console.log(movie);
+
   const genreLength = genre.split(",").length;
 
   //function for already watch!!
@@ -65,6 +67,15 @@ const MovieDetail = ({
     };
     fetchMovie();
   }, [apiKey, selectedMovieId]);
+
+  useEffect(() => {
+    isLoading ? (document.title = "Loading...") : (document.title = `${title}`);
+
+    return () => {
+      document.title = "MovieMate";
+      console.log(`clean up efffect for movie ${title}`);
+    };
+  }, [title, isLoading]);
 
   return (
     <div className="relative">

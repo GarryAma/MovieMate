@@ -65,7 +65,7 @@ const RealApp = () => {
         //movie not found
         if (data.Response === "False") throw new Error("Movie not found🚫");
 
-        console.log(data);
+        // console.log(data);
         setMovies(data.Search);
         setIsLoading(false);
       } catch (error) {
