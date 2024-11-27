@@ -73,9 +73,32 @@ const MovieDetail = ({
 
     return () => {
       document.title = "MovieMate";
-      console.log(`clean up efffect for movie ${title}`);
+      // console.log(`clean up efffect for movie ${title}`);
     };
   }, [title, isLoading]);
+
+  //effect for listening to key event
+  //we need effect because we'll interact with outside react(touching the DOM)
+  //useEffect is placed here because we only want to have movieDetail on the tree(mounted)
+  useEffect(() => {
+    //need to create function as reference
+    const callback = (event) => {
+      if (event.code === "Escape") {
+        onGoBack();
+        // console.log("closing");
+      }
+    };
+
+    //use callback reference
+    if (movie) {
+      document.addEventListener("keydown", callback);
+    }
+
+    //use callback reference
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onGoBack, movie]);
 
   return (
     <div className="relative">

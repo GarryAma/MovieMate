@@ -17,13 +17,17 @@ const KEY = "2016dc0e";
 
 const RealApp = () => {
   const [movies, setMovies] = useState([]);
+
+  //useState can accept PURE function as initial value(when the app mounted initially)
+  // const [watched, setWatched] = useState(() => {
+  //   const storedData = localStorage.getItem("watched");
+  //   return JSON.parse(storedData);
+  // });
   const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null);
-
-  // console.log(watched);
 
   //function for selecting movie
   const handleSelectMovieId = (movieId) => {
@@ -39,6 +43,9 @@ const RealApp = () => {
   const handleAddMovieToWatched = (movieObj) => {
     setWatched((current) => [...current, movieObj]);
     setSelectedMovieId(null);
+
+    // do localstorage inside useEffect is preferred way!
+    // localStorage.setItem("watched", JSON.stringify([...watched, movieObj]));
   };
 
   //function to delete movie from watched list
@@ -48,6 +55,7 @@ const RealApp = () => {
     );
   };
 
+  //effect for fetching data and abort every request made
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -90,6 +98,7 @@ const RealApp = () => {
       return;
     }
 
+    handleGoBack();
     fetchData();
 
     //clean up function for canceling every request/query - every type0
@@ -97,6 +106,21 @@ const RealApp = () => {
       controller.abort();
     };
   }, [query]);
+
+  //not preferred way(use useState with callback function as value)
+  useEffect(() => {
+    const stored = localStorage.getItem("watched");
+    // console.log(stored); // Pastikan data ada di sini
+    if (stored) {
+      setWatched(JSON.parse(stored)); // Update state dengan data dari localStorage
+    }
+  }, []);
+
+  //effect for storing watched movies into localstorage
+  //this effect always runs everytime watched is updated!!
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   return (
     <div className="p-2 bg-slate-900 h-[100%]">
