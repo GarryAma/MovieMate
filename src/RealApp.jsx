@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "./components/Nav";
 import Main from "./components/Main";
 import Logo from "./components/Logo";
@@ -28,6 +28,9 @@ const RealApp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+  //useRef for selecting input DOM
+  const inputElement = useRef(null);
 
   //function for selecting movie
   const handleSelectMovieId = (movieId) => {
@@ -122,6 +125,11 @@ const RealApp = () => {
     localStorage.setItem("watched", JSON.stringify(watched));
   }, [watched]);
 
+  //useRef is used here because to reference ref to input element,DOM need to be loaded first(thats what useEffect do)
+  useEffect(() => {
+    inputElement.current.focus();
+  }, []);
+
   return (
     <div className="p-2 bg-slate-900 h-[100%]">
       <nav className="bg-blue-900 flex justify-between items-center p-3 rounded-md">
@@ -131,7 +139,8 @@ const RealApp = () => {
           onChange={(e) => setQuery(e.target.value)}
           type="text"
           placeholder="Search movies..."
-          className="p-2 text-xs md:text-xs rounded-sm focus:outline-none "
+          className="p-2 text-xs md:text-xs rounded-sm focus:outline-none"
+          ref={inputElement}
         />
         <NumResult movies={movies.length} />
       </nav>
