@@ -127,7 +127,19 @@ const RealApp = () => {
 
   //useRef is used here because to reference ref to input element,DOM need to be loaded first(thats what useEffect do)
   useEffect(() => {
-    inputElement.current.focus();
+    const callback = (event) => {
+      if (document.activeElement === inputElement.current) return;
+      if (event.code === "Enter") {
+        inputElement.current.focus();
+        setQuery("");
+      }
+    };
+
+    document.addEventListener("keydown", callback);
+
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
   }, []);
 
   return (
