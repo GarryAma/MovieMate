@@ -152,7 +152,7 @@ const RealApp = () => {
           onChange={(e) => setQuery(e.target.value)}
           type="text"
           placeholder="Search movies..."
-          className="p-2 text-xs md:text-xs rounded-sm focus:outline-none"
+          className="p-1 sm:p-2 text-xs md:text-xs rounded-sm focus:outline-none"
           ref={inputElement}
         />
         <NumResult movies={movies.length} />
