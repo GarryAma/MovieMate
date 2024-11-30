@@ -13,7 +13,8 @@ import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import MovieDetail from "./components/MovieDetail";
 
-const KEY = "2016dc0e";
+// const KEY = "2016dc0e";
+const KEY = import.meta.env.VITE_SECRET_KEY;
 
 const RealApp = () => {
   const [movies, setMovies] = useState([]);
@@ -67,7 +68,7 @@ const RealApp = () => {
         setIsLoading(true);
         setError("");
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
           { signal }
         );
 
