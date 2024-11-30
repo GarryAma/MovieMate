@@ -46,13 +46,18 @@ const WatchedSummary = ({ moviesWatched }) => {
         <p>
           <span className="mr-1">🌟</span>
           <span>
-            {isMovieWatchExist ? avgUserRating / moviesWatched.length : 0}
+            {isMovieWatchExist
+              ? (avgUserRating / moviesWatched.length).toFixed(1)
+              : 0}
           </span>
         </p>
         <p>
           <span className="mr-1">⏳</span>
           <span>
-            {isMovieWatchExist ? avgRuntime / moviesWatched.length : 0} min
+            {isMovieWatchExist
+              ? (avgRuntime / moviesWatched.length).toFixed(1)
+              : 0}{" "}
+            min
           </span>
         </p>
       </div>
